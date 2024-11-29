@@ -1,7 +1,19 @@
 
-FROM mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6 AS cdms-aspire-dashboard
+FROM grafana/otel-lgtm AS cdms-grafana-dashboard
 
-ENV DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS='true'
-EXPOSE 18888 18889
+ARG PORT=8085
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 
-ENV PORT 8085
+# CDP PLATFORM HEALTHCHECK REQUIREMENT
+RUN dnf install curl -y --allowerasing
+
+# Required to route UI and data feed ports to grafana
+RUN dnf install nginx -y --allowerasing
+COPY routes.conf /otel-lgtm/routes.conf
+
+COPY start.sh /otel-lgtm/start.sh
+
+WORKDIR "/otel-lgtm"
+
+CMD ["./start.sh"]
