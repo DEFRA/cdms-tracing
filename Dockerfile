@@ -1,6 +1,8 @@
 
 FROM grafana/otel-lgtm AS cdms-grafana-dashboard
 
+WORKDIR "/"
+
 ARG PORT=8085
 ENV PORT=${PORT}
 EXPOSE ${PORT}
@@ -10,10 +12,10 @@ RUN dnf install curl -y --allowerasing
 
 # Required to route UI and data feed ports to grafana
 RUN dnf install nginx -y --allowerasing
-COPY routes.conf /otel-lgtm/routes.conf
+COPY routes.conf /routes.conf
 
-COPY start.sh /otel-lgtm/start.sh
+COPY start.sh /start.sh
 
-WORKDIR "/otel-lgtm"
+#WORKDIR "/otel-lgtm"
 
 CMD ["./start.sh"]

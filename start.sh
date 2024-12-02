@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-nginx -c "$(pwd)"/routes.conf &
+nginx -c /routes.conf &
+
+cd /otel-lgtm/
 
 ./run-all.sh
