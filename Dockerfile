@@ -14,7 +14,7 @@ RUN dnf install curl -y --allowerasing
 RUN dnf install nginx -y --allowerasing
 COPY routes.conf /routes.conf
 
-COPY start.sh /start.sh
+COPY --chmod=0755 start.sh /start.sh
 
 #WORKDIR "/otel-lgtm"
 
